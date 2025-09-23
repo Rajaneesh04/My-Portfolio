@@ -23,12 +23,16 @@
   --color-bg: var(--color-bg-light);
   --color-text: var(--color-text-light);
   --color-primary: var(--color-primary-light);
+  --color-card-bg: rgba(255, 255, 255, 0.9);
+  --color-card-shadow: rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="dark"] {
   --color-bg: var(--color-bg-dark);
   --color-text: var(--color-text-dark);
   --color-primary: var(--color-primary-dark);
+  --color-card-bg: rgba(0, 0, 0, 0.5);
+  --color-card-shadow: rgba(255, 255, 255, 0.1);
 }
 
 body,
@@ -44,19 +48,17 @@ html,
   position: relative;
 }
 
-/* Header Section*/
+/* Header Section */
 .header {
   position: fixed;
   top: 0;
   width: 100%;
-  /* background: rgba(0, 0, 0, 0.15); */
   backdrop-filter: blur(1px);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
   z-index: 1000;
-  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
 }
 
 /* Footer Section */
@@ -65,12 +67,10 @@ html,
   padding: 1rem 2rem;
   backdrop-filter: blur(1px);
   background-color: var(--color-primary);
-  /* color: white; */
   font-size: 1rem;
   position: relative;
   z-index: 1000;
   user-select: none;
-  /* box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15); */
   margin-top: 2rem;
 }
 
@@ -162,8 +162,9 @@ html,
 
 .home-image {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  gap: 1rem;
 }
 
 .person-image {
@@ -180,30 +181,65 @@ html,
   transform: scale(1.02);
 }
 
-/* Download CV Button */
-.download-cv-button {
+/* Social Icons under image */
+.social-icons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.social-icons a {
+  color: var(--color-primary);
+  transition: color var(--transition-speed), transform var(--transition-speed);
+}
+
+.social-icons a:hover {
+  color: var(--color-text);
+  transform: scale(1.1);
+}
+
+/* Home Buttons */
+.home-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.download-cv-button,
+.hire-me-button {
   display: inline-block;
-  background-color: var(--color-primary);
-  color: white;
   padding: 0.8rem 1.5rem;
   border-radius: 8px;
   text-decoration: none;
   font-weight: 600;
-  margin-top: 1.5rem;
   transition: background-color var(--transition-speed), transform 0.3s ease;
 }
 
+.download-cv-button {
+  background-color: var(--color-primary);
+  color: white;
+}
+
 .download-cv-button:hover {
-  background-color: darken(var(--color-primary), 10%); /* Example: slightly darker on hover */
+  background-color: rgba(0, 119, 255, 0.8); /* Slightly darker for light theme; adjust for dark if needed */
   transform: translateY(-2px);
 }
 
+.hire-me-button {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+
+.hire-me-button:hover {
+  background-color: var(--color-primary);
+  color: white;
+  transform: translateY(-2px);
+}
 
 /* About Section */
 .about {
   padding: 4rem 2rem;
-  /* background: linear-gradient(135deg, var(--color-primary) 0%, #4ecdc4 100%); */
-  color: var(--color-primary) 0%;
   border-radius: 12px;
   margin-bottom: 3rem;
   max-width: 900px;
@@ -215,6 +251,7 @@ html,
 .about h2 {
   font-size: 3rem;
   margin-bottom: 2rem;
+  color: var(--color-primary);
 }
 
 .about-content p {
@@ -223,7 +260,7 @@ html,
   margin-bottom: 1.5rem;
 }
 
-/* Other Sections */
+/* Other Sections Base */
 .section {
   padding: 4rem 2rem;
   margin-bottom: 3rem;
@@ -236,14 +273,277 @@ html,
   text-align: center;
 }
 
-.section ul {
-  list-style-type: disc;
-  margin-left: 1.5rem;
-  margin-top: 1rem;
+/* Education Section - Timeline Style */
+.education-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.section ul li {
+.education-card {
+  display: flex;
+  align-items: center;
+  background: var(--color-card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--color-card-shadow);
+  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+  border-left: 4px solid var(--color-primary);
+}
+
+.education-card:hover {
+  transform: translateX(10px);
+  box-shadow: 0 6px 20px var(--color-card-shadow);
+}
+
+.education-icon {
+  font-size: 2rem;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.education-details h3 {
+  font-size: 1.3rem;
+  color: var(--color-primary);
+  margin-bottom: 0.2rem;
+}
+
+.education-details h4 {
+  font-size: 1.1rem;
+  color: var(--color-text);
   margin-bottom: 0.5rem;
+}
+
+.education-details .years {
+  font-weight: bold;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.education-details .education-percentage {
+  display: inline-block;
+  background-color: var(--color-primary);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px; /* Pill-shaped badge */
+  font-size: 0.95rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+}
+.education-details .education-percentage:hover {
+  background-color: rgba(0, 119, 255, 0.8); /* Hover effect for interactivity */
+  transform: scale(1.05);
+}
+
+.education-details p {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* Responsive adjustments for percentage (add to existing media queries) */
+@media (max-width: 768px) {
+  /* ... existing responsive code ... */
+  
+  .education-details .education-percentage {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.6rem;
+    margin-bottom: 0.4rem;
+  }
+}
+@media (max-width: 480px) {
+  /* ... existing responsive code ... */
+  
+  .education-details .education-percentage {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.5rem;
+    display: block; /* Stack on very small screens if needed */
+    text-align: center;
+    margin: 0.4rem auto;
+  }
+}
+
+/* Skills Section - Grid with Icons */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.skill-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--color-card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--color-card-shadow);
+  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+  text-align: center;
+}
+
+.skill-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px var(--color-card-shadow);
+}
+
+.skill-icon {
+  margin-bottom: 0.5rem;
+  color: var(--color-primary);
+}
+
+.skill-card p {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+/* Projects Section - Side by Side Grid */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.project-card {
+  background: var(--color-card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px var(--color-card-shadow);
+  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px var(--color-card-shadow);
+}
+
+.project-frame {
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.project-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.project-info {
+  padding: 1.5rem;
+}
+
+.project-info h3 {
+  font-size: 1.3rem;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.project-info p {
+  font-size: 1rem;
+  opacity: 0.8;
+  margin-bottom: 1rem;
+}
+
+.read-more-button {
+  display: inline-block;
+  background-color: var(--color-primary);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color var(--transition-speed);
+}
+
+.read-more-button:hover {
+  background-color: rgba(0, 119, 255, 0.8);
+}
+
+/* Contact Section */
+.contact-info {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.contact-info p {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.contact-info a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.contact-info a:hover {
+  text-decoration: underline;
+}
+
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 1rem;
+  border: 1px solid var(--color-primary);
+  border-radius: 8px;
+  font-size: 1rem;
+  background: var(--color-card-bg);
+  color: var(--color-text);
+  transition: border-color var(--transition-speed);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--color-text);
+}
+
+.submit-button {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+}
+
+.submit-button:hover {
+  background-color: rgba(0, 119, 255, 0.8);
+}
+
+.form-status {
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+
+.form-status.success {
+  background-color: rgba(0, 255, 0, 0.2);
+  color: green;
+}
+
+.form-status.error {
+  background-color: rgba(255, 0, 0, 0.2);
+  color: red;
 }
 
 /* Background effects - bubbles */
@@ -354,14 +654,89 @@ html,
   animation-delay: 9s;
 }
 
-/* Repeat for 20 bubbles with random sizes and positions */
-.bubble:nth-child(n + 11) {
-  width: 10px;
-  height: 10px;
-  left: calc(5% + (10 * (n - 11)));
-  animation-duration: 15s;
-  animation-delay: calc(1s * (n - 11));
-  opacity: 0.1;
+/* Repeat for additional bubbles (11-20) with varied styles */
+/* Repeat for additional bubbles (11-20) with varied styles */
+.bubble:nth-child(11) { 
+  width: 25px; 
+  height: 25px; 
+  left: 10%; 
+  animation-duration: 16s; 
+  animation-delay: 10s; 
+}
+
+.bubble:nth-child(12) { 
+  width: 30px; 
+  height: 30px; 
+  left: 20%; 
+  animation-duration: 19s; 
+  animation-delay: 11s; 
+  opacity: 0.12; 
+}
+
+.bubble:nth-child(13) { 
+  width: 18px; 
+  height: 18px; 
+  left: 30%; 
+  animation-duration: 17s; 
+  animation-delay: 12s; 
+}
+
+.bubble:nth-child(14) { 
+  width: 35px; 
+  height: 35px; 
+  left: 40%; 
+  animation-duration: 21s; 
+  animation-delay: 13s; 
+}
+
+.bubble:nth-child(15) { 
+  width: 22px; 
+  height: 22px; 
+  left: 50%; 
+  animation-duration: 18s; 
+  animation-delay: 14s; 
+  opacity: 0.08; 
+}
+
+.bubble:nth-child(16) { 
+  width: 28px; 
+  height: 28px; 
+  left: 60%; 
+  animation-duration: 20s; 
+  animation-delay: 15s; 
+}
+
+.bubble:nth-child(17) { 
+  width: 20px; 
+  height: 20px; 
+  left: 70%; 
+  animation-duration: 16s; 
+  animation-delay: 16s; 
+}
+
+.bubble:nth-child(18) { 
+  width: 32px; 
+  height: 32px; 
+  left: 80%; 
+  animation-duration: 22s; 
+  animation-delay: 17s; 
+}
+
+.bubble:nth-child(19) { 
+  width: 16px; 
+  height: 16px; 
+  left: 90%; 
+  animation-duration: 18s; 
+  animation-delay: 18s; 
+}
+
+.bubble:nth-child(20) { 
+  width: 24px; 
+  height: 24px; 
+  left: 0%; 
+  animation-duration: 23s; 
+  animation-delay: 19s; 
+  opacity: 0.1; 
 }
 
 @keyframes rise {
@@ -378,7 +753,7 @@ html,
   }
 }
 
-/* Responsive */
+/* Responsive Design */
 @media (max-width: 768px) {
   .home {
     grid-template-columns: 1fr;
@@ -388,29 +763,122 @@ html,
 
   .home-content {
     padding-right: 0;
+    order: 2; /* Image first on mobile */
+  }
+
+  .home-image {
+    order: 1; /* Content after image on mobile */
   }
 
   .home h1 {
     font-size: 2.5rem;
   }
 
+  .home p {
+    font-size: 1.1rem;
+  }
+
   .person-image {
     max-width: 300px;
-    height: 400px;
+    height: 300px;
     margin: 0 auto;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+
+  .home-buttons {
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
   .header {
     flex-direction: column;
     gap: 0.5rem;
+    padding: 1rem;
   }
 
   .nav {
     justify-content: center;
+    flex-wrap: wrap;
   }
 
   .main-content {
     padding: 5rem 1rem 1rem 1rem;
+  }
+
+  .about,
+  .section {
+    padding: 3rem 1rem;
+  }
+
+  .about h2,
+  .section h2 {
+    font-size: 2.2rem;
+  }
+
+  .about-content p {
+    font-size: 1.1rem;
+  }
+
+  /* Education Responsive */
+  .education-timeline {
+    gap: 1.5rem;
+  }
+
+  .education-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .education-icon {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Skills Responsive */
+  .skills-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-card {
+    padding: 1rem;
+  }
+
+  .skill-icon {
+    font-size: 2rem; /* Adjust icon size for mobile */
+  }
+
+  /* Projects Responsive */
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .project-image {
+    height: 180px;
+  }
+
+  .project-info {
+    padding: 1rem;
+  }
+
+  /* Contact Responsive */
+  .contact-form {
+    gap: 0.8rem;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    padding: 0.8rem;
+    font-size: 1rem;
+  }
+
+  .submit-button {
+    padding: 0.8rem;
   }
 }
 
@@ -420,12 +888,12 @@ html,
   }
 
   .home p {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .person-image {
     max-width: 250px;
-    height: 350px;
+    height: 250px;
   }
 
   .nav-button {
@@ -433,39 +901,102 @@ html,
     font-size: 0.9rem;
   }
 
-  /* Mobile-specific adjustments for header and navigation */
+  /* Mobile-specific header adjustments */
   .header {
-    padding: 0.8rem 1rem; /* Smaller padding for header */
+    padding: 0.8rem 1rem;
   }
 
   .nav {
-    flex-direction: column; /* Stack navigation buttons vertically */
-    gap: 0.5rem; /* Smaller gap between buttons */
-    width: 100%; /* Full width for navigation */
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
   }
 
   .nav-button {
-    width: 100%; /* Full width for each button */
-    text-align: center; /* Center text in buttons */
+    width: 100%;
+    text-align: center;
   }
 
   .theme-toggle {
-    margin-top: 0.5rem; /* Add some space above the theme toggle */
+    margin-top: 0.5rem;
   }
 
   .main-content {
-    padding: 4rem 1rem 1rem 1rem; /* Adjust main content padding for smaller screens */
+    padding: 4rem 0.5rem 1rem 0.5rem;
   }
 
-  .about, .section {
-    padding: 2rem 1rem; /* Smaller padding for sections */
+  .about,
+  .section {
+    padding: 2rem 0.5rem;
   }
 
-  .about h2, .section h2 {
-    font-size: 2rem; /* Smaller heading font size */
+  .about h2,
+  .section h2 {
+    font-size: 1.8rem;
   }
 
-  .about-content p, .section p, .section ul li {
-    font-size: 1rem; /* Smaller paragraph and list item font size */
+  .about-content p,
+  .education-details p,
+  .project-info p {
+    font-size: 1rem;
+  }
+
+  /* Education Mobile */
+  .education-card {
+    padding: 0.8rem;
+  }
+
+  .education-details h3 {
+    font-size: 1.1rem;
+  }
+
+  /* Skills Mobile */
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .skill-card p {
+    font-size: 0.9rem;
+  }
+
+  /* Projects Mobile */
+  .project-info h3 {
+    font-size: 1.1rem;
+  }
+
+  .read-more-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  /* Contact Mobile */
+  .contact-info p {
+    font-size: 1rem;
+  }
+
+  .contact-form {
+    max-width: 100%;
+    padding: 0 0.5rem;
+  }
+
+  .form-status {
+    font-size: 0.9rem;
+  }
+
+  /* Social Icons Mobile */
+  .social-icons {
+    gap: 0.8rem;
+  }
+
+  .social-icons a {
+    font-size: 1.2rem; /* Smaller icons on very small screens */
+  }
+
+  /* Home Buttons Mobile */
+  .download-cv-button,
+  .hire-me-button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
   }
 }

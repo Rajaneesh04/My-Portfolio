@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
+import { FaInstagram, FaGithub, FaLinkedin, FaJsSquare, FaReact, FaNodeJs, FaHtml5, FaCss3Alt, FaPython, FaGitAlt, FaAws, FaJava } from "react-icons/fa";
+import { SiSass, SiNpm, SiDevpost } from "react-icons/si";
+import emailjs from "@emailjs/browser";
 import "./App.css";
 
 const sections = ["Home", "About", "Education", "Skills", "Projects", "Contact"];
@@ -6,6 +9,12 @@ const sections = ["Home", "About", "Education", "Skills", "Projects", "Contact"]
 export default function App() {
   const [theme, setTheme] = useState("light");
   const [activeSection, setActiveSection] = useState("Home");
+  const [formStatus, setFormStatus] = useState(""); // For contact form feedback
+
+  // EmailJS Configuration - Replace with your actual keys
+  const SERVICE_ID = "YOUR_SERVICE_ID"; // e.g., "service_abc123"
+  const TEMPLATE_ID = "YOUR_TEMPLATE_ID"; // e.g., "template_def456"
+  const USER_ID = "YOUR_USER_ID"; // e.g., "user_ghi789"
 
   // Create refs for each section
   const sectionRefs = {
@@ -60,6 +69,80 @@ export default function App() {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
+  // Contact form submit handler
+  const sendEmail = (e) => {
+    e.preventDefault();
+    emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, e.target, USER_ID)
+      .then((result) => {
+        console.log(result.text);
+        setFormStatus("Message sent successfully!");
+        e.target.reset();
+      }, (error) => {
+        console.log(error.text);
+        setFormStatus("Failed to send message. Please try again.");
+      });
+  };
+
+  // Projects data (expand as needed)
+  const projects = [
+    {
+      title: "Portfolio Website",
+      image: "/project1.jpg", // Replace with actual image
+      description: "A personal portfolio built with React and modern CSS.",
+      link: "https://github.com/yourusername/portfolio"
+    },
+    {
+      title: "Chat App",
+      image: "/project2.jpg", // Replace with actual image
+      description: "Real-time chat application using Socket.io and Node.js.",
+      link: "https://github.com/yourusername/chatapp"
+    },
+    {
+      title: "Data Visualizer",
+      image: "/project3.jpg", // Replace with actual image
+      description: "Python app for visualizing datasets with interactive charts.",
+      link: "https://github.com/yourusername/dataviz"
+    }
+  ];
+
+  // Skills data with icons
+  const skills = [
+    { name: "JavaScript", icon: <FaJsSquare size={40} /> },
+    { name: "React", icon: <FaReact size={40} /> },
+    { name: "AWS", icon: <FaAws size={40} /> },
+    { name: "HTML", icon: <FaHtml5 size={40} /> },
+    { name: "CSS", icon: <FaCss3Alt size={40} /> },
+    { name: "Java", icon: <FaJava size={40} /> },
+    { name: "DevOps", icon: <SiDevpost size={40} /> },
+    { name: "Python", icon: <FaPython size={40} /> },
+    { name: "Git", icon: <FaGitAlt size={40} /> }
+  ];
+
+  // Education data
+  const education = [
+    {
+      degree: "Bachelor of Engineering in Information Science",
+      institution: "Yenepoya Institute of Technology",
+      years: "2021 - 2025",
+      percentage:"GPA: 8.0",
+      description: "Graduated degree with focus on web development and AI."
+    },
+    {
+      degree: "Pre-University College",
+      institution: "Acharya PU College",
+      years: "2019 - 2021",
+      percentage: "79.33%",
+      // description: "Graduated with honors in Mathematics and Science."
+    },
+    {
+      degree: "High School",
+      institution: "St Treasa High School",
+      years: "2019",
+      percentage:"81.92%",
+      description: "Graduated with honors in Mathematics and Science."
+    }
+  ];
+
   return (
     <div className="App">
       <header className="header">
@@ -96,10 +179,15 @@ export default function App() {
             <p>
               Currently pursuing my degree while working on exciting projects that challenge my skills and expand my knowledge in web development and software engineering.
             </p>
-            {/* Download CV Button */}
-            <a href="/your-cv.pdf" download="Your_Name_CV.pdf" className="download-cv-button">
-              Download CV
-            </a>
+            {/* Buttons */}
+            <div className="home-buttons">
+              <a href="/your-cv.pdf" download="Your_Name_CV.pdf" className="download-cv-button">
+                Download CV
+              </a>
+              <a href="https://linkedin.com/in/student" target="_blank" rel="noreferrer" className="hire-me-button">
+                Hire Me
+              </a>
+            </div>
           </div>
           <div className="home-image">
             <img
@@ -107,6 +195,18 @@ export default function App() {
               alt="Portrait of a young developer smiling confidently"
               className="person-image"
             />
+            {/* Social Icons under image */}
+            <div className="social-icons">
+              <a href="https://instagram.com/yourusername" target="_blank" rel="noreferrer" aria-label="Instagram">
+                <FaInstagram size={30} />
+              </a>
+              <a href="https://github.com/yourusername" target="_blank" rel="noreferrer" aria-label="GitHub">
+                <FaGithub size={30} />
+              </a>
+              <a href="https://linkedin.com/in/student" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                <FaLinkedin size={30} />
+              </a>
+            </div>
           </div>
         </section>
 
@@ -128,57 +228,80 @@ export default function App() {
           </div>
         </section>
 
-        {/* Education Section */}
+        {/* Education Section - Timeline Style */}
         <section className="section education" ref={sectionRefs.Education}>
           <h2>Education</h2>
-          <ul>
-            <li>
-              <strong>Bachelor of Science in Computer Science</strong> - XYZ University (2020 - Present)
-            </li>
-            <li>
-              <strong>High School Diploma</strong> - ABC High School (2016 - 2020)
-            </li>
-          </ul>
+          <div className="education-timeline">
+            {education.map((edu, index) => (
+              <div key={index} className="education-card">
+                <div className="education-icon">🎓</div>
+                <div className="education-details">
+                  <h3>{edu.degree}</h3>
+                  <h4>{edu.institution}</h4>
+                  <p className="years">{edu.years}</p>
+                  <span className="education-percentage">{edu.percentage}</span>
+                  <p>{edu.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </section>
 
-        {/* Skills Section */}
+        {/* Skills Section - With Icons */}
         <section className="section skills" ref={sectionRefs.Skills}>
           <h2>Skills</h2>
-          <ul>
-            <li>JavaScript / React / Node.js</li>
-            <li>HTML5 / CSS3 / Sass</li>
-            <li>Python / Data Analysis</li>
-            <li>Git / GitHub / Agile</li>
-          </ul>
+          <div className="skills-grid">
+            {skills.map((skill, index) => (
+              <div key={index} className="skill-card">
+                <div className="skill-icon">{skill.icon}</div>
+                <p>{skill.name}</p>
+              </div>
+            ))}
+          </div>
         </section>
 
-        {/* Projects Section */}
+        {/* Projects Section - Side by Side Cards */}
         <section className="section projects" ref={sectionRefs.Projects}>
           <h2>Projects</h2>
-          <ul>
-            <li>
-              <strong>Portfolio Website</strong> - A personal portfolio built with React.
-            </li>
-            <li>
-              <strong>Chat App</strong> - Real-time chat application using Socket.io.
-            </li>
-            <li>
-              <strong>Data Visualizer</strong> - Python app for visualizing datasets.
-            </li>
-          </ul>
+          <div className="projects-grid">
+            {projects.map((project, index) => (
+              <div key={index} className="project-card">
+                <div className="project-frame">
+                  <img src={project.image} alt={project.title} className="project-image" />
+                  <div className="project-info">
+                    <h3>{project.title}</h3>
+                    <p>{project.description}</p>
+                    <a href={project.link} target="_blank" rel="noreferrer" className="read-more-button">
+                      Read More
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </section>
 
-        {/* Contact Section */}
+        {/* Contact Section - With Form */}
         <section className="section contact" ref={sectionRefs.Contact}>
           <h2>Contact Me</h2>
-          <p>Email: rajaneeshrajju44@gmail.com</p>
-          <p>Phone: +91 9148473256</p>
-          <p>
-            LinkedIn:{" "}
-            <a href="https://linkedin.com/in/student" target="_blank" rel="noreferrer">
-              linkedin.com/in/student
-            </a>
-          </p>
+          <div className="contact-info">
+            <p>Email: rajaneeshrajju44@gmail.com</p>
+            <p>Phone: +91 9148473256</p>
+            <p>
+              LinkedIn:{" "}
+              <a href="https://linkedin.com/in/student" target="_blank" rel="noreferrer">
+                linkedin.com/in/student
+              </a>
+            </p>
+          </div>
+          <form onSubmit={sendEmail} className="contact-form">
+            <input type="text" name="user_name" placeholder="Your Name" required />
+            <input type="email" name="user_email" placeholder="Your Email" required />
+            <input type="tel" name="user_phone" placeholder="Your Phone Number" required />
+            <textarea name="message" placeholder="Your Message" rows="5" required />
+            <button type="submit" className="submit-button">Send Message</button>
+            {formStatus && <p className={`form-status ${formStatus.includes('success') ? 'success' : 'error'}`}>{formStatus}</p>}
+          </form>
         </section>
       </main>
 
